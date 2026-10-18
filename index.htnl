@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تِك وردي | التوعية بسرطان الثدي – جامعة بحري</title>
+<meta name="description" content="مبادرة طلابية في جامعة بحري تجمع التقنية والمعرفة الصحية للتوعية بسرطان الثدي والكشف المبكر.">
+<meta name="theme-color" content="#e0306f">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body data-page="home"><div id="hdr"></div>
+<main>
+<section class="hero"><div class="wrap">
+ <div><span class="tag">أكتوبر الوردي 2026</span>
+ <h1>الكشف المبكر <em>يبدأ بمعلومة</em></h1>
+ <p class="lead">نحوّل المعرفة الصحية إلى تجربة رقمية تفاعلية: اترك رسالة تدعم بها غيرك، واختبر معلوماتك، وشارك الوعي.</p>
+ <div class="row"><a class="btn" href="quiz.html">ابدأ تحدي الوعي</a><a class="btn alt" href="wall.html">اكتب رسالة أمل</a></div></div>
+ <svg class="ribbon" viewBox="0 0 200 300" aria-hidden="true"><path d="M100 40C30 40 40 130 100 150S170 250 140 280"/><path d="M100 40C170 40 160 130 100 150S30 250 60 280"/></svg>
+</div></section>
+<div class="live"><div class="wrap" aria-live="polite">
+ <div><b id="nMsg">–</b><small>رسالة أمل</small></div><div><b id="nQuiz">–</b><small>مشارك في التحدي</small></div>
+ <div style="grid-column:span 2"><b id="cd">–</b><small>حتى انطلاق الفعالية (20 أكتوبر 11:00 ص)</small></div></div></div>
+<section><div class="wrap"><h2>ثلاث طرق للمشاركة</h2><p class="sub">كل ما تكتبه وتجيب عنه يُحفظ مباشرة في قاعدة البيانات ويظهر للجميع لحظيًا.</p>
+<div class="grid3">
+ <a class="card fill" href="wall.html"><span>💌</span><h3>حائط الأمل</h3><p>رسالة قصيرة قد تغيّر يوم شخص ما.</p></a>
+ <a class="card" href="quiz.html"><span>🧠</span><h3>تحدي الوعي</h3><p>ست أسئلة، ونتيجتك تدخل لوحة المتصدرين.</p></a>
+ <div class="card"><span>📅</span><h3>الفعالية</h3><p>الثلاثاء 20 أكتوبر 2026، الساعة 11:00 صباحًا، جامعة بحري.</p></div>
+</div></div></section>
+<section><div class="wrap"><h2>علامات لا تتجاهلها</h2><p class="sub">كتلة جديدة، تغيّر في شكل أو جلد الثدي، إفراز من الحلمة، أو ألم مستمر في مكان واحد: راجع الطبيب. وجود علامة لا يعني المرض بالضرورة، لكن الفحص المبكر يصنع الفرق.</p></div></section>
+<section class="org"><div class="wrap"><h2>الجهة المنظمة</h2><p class="sub">مبادرة طلابية بين طلاب علوم الحاسوب وطلاب كلية التمريض.</p>
+<div class="logos">
+ <figure><img src="university-logo.jpg" alt="شعار جامعة بحري" width="84" height="84"><figcaption>جامعة بحري<small>University of Bahri</small></figcaption></figure>
+ <figure><img src="college-logo.jpg" alt="شعار كلية علوم الحاسوب والرياضيات" width="84" height="84"><figcaption>كلية علوم الحاسوب والرياضيات<small>College of Computer Sciences &amp; Mathematics</small></figcaption></figure>
+</div></div></section>
+</main><div id="ftr"></div>
+<script src="db.js"></script><script src="shell.js"></script>
+<script>
+const T=new Date("2026-10-20T11:00:00+02:00").getTime(),cd=document.getElementById("cd");
+function tick(){const s=Math.floor((T-Date.now())/1e3);if(s<=0){cd.textContent="انطلقت 💗";return}
+ const p=n=>String(n).padStart(2,"0");cd.textContent=`${Math.floor(s/86400)}ي ${p(Math.floor(s%86400/3600))}:${p(Math.floor(s%3600/60))}:${p(s%60)}`}
+tick();setInterval(tick,1000);
+api.count("messages").then(n=>nMsg.textContent=n).catch(()=>nMsg.textContent="–");
+api.count("scores").then(n=>nQuiz.textContent=n).catch(()=>nQuiz.textContent="–");
+</script></body></html>
