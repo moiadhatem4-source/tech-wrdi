@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تحدي الوعي | تِك وردي</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body data-page="quiz"><div id="hdr"></div>
+<main><section><div class="wrap" style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start">
+<div class="panel" id="box"></div>
+<div class="panel"><h3>لوحة المتصدرين</h3><ol class="board" id="board"><li>جارٍ التحميل…</li></ol></div>
+</div></section></main><div id="ftr"></div>
+<script src="db.js"></script><script src="shell.js"></script>
+<script>
+const Q=[
+["متى يكون اكتشاف سرطان الثدي أنفع للعلاج؟",["في مرحلة مبكرة","بعد ظهور الأعراض الشديدة","لا فرق في التوقيت"],0],
+["أي علامة تستدعي مراجعة الطبيب؟",["كتلة جديدة في الثدي أو تحت الإبط","التعب بعد يوم طويل","الصداع العابر"],0],
+["ما الماموغرام؟",["تصوير بالأشعة السينية للثدي","تحليل دم","فحص بالموجات الصوتية للقلب"],0],
+["هل يمكن أن يصيب سرطان الثدي الرجال؟",["نعم، لكنه أقل شيوعًا","لا، مستحيل","فقط بعد سن الستين"],0],
+["هل كل كتلة في الثدي تعني سرطانًا؟",["لا، أغلبها حميد لكن يلزم فحصها","نعم دائمًا","لا حاجة لفحصها أبدًا"],0],
+["أي عادة تساعد في تقليل الخطر؟",["نشاط بدني منتظم ووزن صحي","قلة الحركة","إهمال الفحوصات"],0]];
+const box=document.getElementById("box");let i=0,score=0;
+const shuf=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
+function show(){const [q,o]=Q[i];const opts=shuf(o.map((t,k)=>({t,ok:k===Q[i][2]})));
+ box.innerHTML=`<div class="bar"><i style="width:${i/Q.length*100}%"></i></div><p class="note">سؤال ${i+1} من ${Q.length}</p><h2 style="font-size:24px">${esc(q)}</h2>`+opts.map((x,k)=>`<button class="opt" data-ok="${x.ok}">${esc(x.t)}</button>`).join("");
+ box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{box.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.dataset.ok==="true")x.classList.add("ok")});
+  if(b.dataset.ok==="true")score++;else b.classList.add("no");
+  setTimeout(()=>{++i<Q.length?show():end()},1100)})}
+function end(){box.innerHTML=`<h2>نتيجتك ${score} / ${Q.length}</h2><p class="sub">${score>=5?"ممتاز، وعيك عالٍ!":"بداية جيدة، شارك المعلومات مع من حولك."}</p>
+ <form id="sf"><input id="sn" maxlength="30" placeholder="اسمك للوحة المتصدرين" required><div class="row"><button class="btn" id="sb">احفظ نتيجتي</button><button type="button" class="btn alt" onclick="location.reload()">أعد المحاولة</button></div><p class="note" id="ss"></p></form>`;
+ sf.onsubmit=async e=>{e.preventDefault();sb.disabled=true;try{await api.push("scores",{name:sn.value.trim().slice(0,30),score,ts:TS});ss.textContent="تم الحفظ 💗";sf.querySelector("input").disabled=true;board()}catch(x){ss.textContent="تعذّر الحفظ.";sb.disabled=false}}}
+async function board(){const b=document.getElementById("board");try{const d=await api.get("scores",'?orderBy="score"&limitToLast=10');
+ const a=Object.values(d||{}).sort((x,y)=>y.score-x.score||x.ts-y.ts);
+ b.innerHTML=a.length?a.map(s=>`<li>${esc(s.name)}<b>${s.score}/${Q.length}</b></li>`).join(""):"<li>لا نتائج بعد</li>"}catch(e){b.innerHTML="<li>تعذّر التحميل</li>"}}
+show();board();
+</script></body></html>
